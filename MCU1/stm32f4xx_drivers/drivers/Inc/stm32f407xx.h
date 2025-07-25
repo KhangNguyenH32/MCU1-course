@@ -17,27 +17,13 @@
  * ARM Cortex Mx Processor NVIC ISERx register Addresses
  */
 
-#define NVIC_ISER0	((__vo uint32_t*)0xE000E100)
-#define NVIC_ISER1	((__vo uint32_t*)0xE000E104)
-#define NVIC_ISER2	((__vo uint32_t*)0xE000E108)
-#define NVIC_ISER3	((__vo uint32_t*)0xE000E10C)
-#define NVIC_ISER4	((__vo uint32_t*)0xE000E110)
-#define NVIC_ISER5	((__vo uint32_t*)0xE000E114)
-#define NVIC_ISER6	((__vo uint32_t*)0xE000E118)
-#define NVIC_ISER7	((__vo uint32_t*)0xE000E11C)
+#define NVIC_ISER_BASE_ADDR	((__vo uint32_t*)0xE000E100)
 
 /*
  * ARM Cortex Mx Processor NVIC ICERx register Addresses
  */
 
-#define NVIC_ICER0	((__vo uint32_t*)0xE000E180)
-#define NVIC_ICER1	((__vo uint32_t*)0xE000E184)
-#define NVIC_ICER2	((__vo uint32_t*)0xE000E188)
-#define NVIC_ICER3	((__vo uint32_t*)0xE000E18C)
-#define NVIC_ICER4	((__vo uint32_t*)0xE000E190)
-#define NVIC_ICER5	((__vo uint32_t*)0xE000E194)
-#define NVIC_ICER6	((__vo uint32_t*)0xE000E198)
-#define NVIC_ICER7	((__vo uint32_t*)0xE000E19C)
+#define NVIC_ICER_BASE_ADDR	((__vo uint32_t*)0xE000E180)
 
 /*
  * ARM Cortex Mx processor Priority Register Address Calculation

@@ -372,36 +372,18 @@ void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
  */
 void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnOrDis)
 {
+	uint8_t reg_idx = IRQNumber / 32;
+	uint8_t bit_pos = IRQNumber % 32;
+
+	if(reg_idx >= 8) return;
+
 	if(EnOrDis == ENABLE)
 	{
-		if(IRQNumber <= 31)
-		{
-			//program ISER0 register
-			*NVIC_ISER0 |= (1 << IRQNumber);
-		}else if(IRQNumber > 31 && IRQNumber < 64) //32-63
-		{
-			//program ISER1 register
-			*NVIC_ISER1 |= (1 << (IRQNumber % 32));
-		}else if(IRQNumber >= 64 && IRQNumber < 96) //64 - 95
-		{
-			//program ISER2 register
-			*NVIC_ISER2 |= (1 << (IRQNumber % 32));
-		}
-	}else // DISABLE
+		NVIC_ISER_BASE_ADDR[reg_idx] |= (1U << bit_pos);
+	}
+	else // DISBALE
 	{
-		if(IRQNumber <= 31)
-		{
-			//program ICER0 register
-			*NVIC_ICER0 |= (1 << IRQNumber);
-		}else if(IRQNumber > 31 && IRQNumber < 64)
-		{
-			//program ICER1 register
-			*NVIC_ICER1 |= (1 << (IRQNumber % 32));
-		}else if(IRQNumber >= 64 && IRQNumber < 96)
-		{
-			//program ICER2 register
-			*NVIC_ICER2 |= (1 << (IRQNumber % 32));
-		}
+		NVIC_ICER_BASE_ADDR[reg_idx] |= (1U << bit_pos);
 	}
 }
 

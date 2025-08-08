@@ -120,9 +120,13 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t EnOrDis)
  * @note        - This function configures mode, speed, pull-up/down, output type, and alternate function.
  *              - Make sure the peripheral clock is enabled before calling this function.
  */
-void GPIO_Init(GPIO_handle_t *pGPIOHandle)
+void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 {
 	uint32_t temp = 0;
+
+	//enable the peripheral clock
+	GPIO_PeriClockControl(pGPIOHandle->pGPIOx, ENABLE);
+
 	//1. configure the mode of gpio pin
 	if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_ANALOG)
 	{
@@ -315,10 +319,10 @@ void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t Val
 {
 	if(Value == GPIO_PIN_SET)
 	{
-		pGPIOx->ODR |= (1 << PinNumber);
+		pGPIOx->ODR |= (1U << PinNumber);
 	}else
 	{
-		pGPIOx->ODR &= ~(1 << PinNumber);
+		pGPIOx->ODR &= ~(1U << PinNumber);
 	}
 }
 
@@ -421,9 +425,9 @@ void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
 void GPIO_IRQHandling(uint8_t PinNumber)
 {
 	//clear the exit register corresponding to the pin number
-	if(EXTI->PR & (1 << PinNumber))
+	if(EXTI->PR & (1U << PinNumber))
 	{
 		//clear
-		EXTI->PR |= (1 << PinNumber);
+		EXTI->PR |= (1U << PinNumber);
 	}
 }

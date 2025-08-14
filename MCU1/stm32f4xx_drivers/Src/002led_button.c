@@ -15,14 +15,14 @@ void delay(void)
 
 int main(void)
 {
-	GPIO_handle_t gpioLED, gpioButton;
+	GPIO_Handle_t gpioLED, gpioButton;
 
 	gpioLED.pGPIOx = GPIOD;
 	gpioLED.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_12;
 	gpioLED.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
 	gpioLED.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
-	gpioLED.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_OD;
-	gpioLED.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
+	gpioLED.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+	gpioLED.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
 
 	gpioButton.pGPIOx = GPIOA;
 	gpioButton.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_0;
@@ -40,7 +40,7 @@ int main(void)
 	{
 		if(GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_0))
 		{
-			//delay();
+			delay();
 			GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_NO_12);
 		}
 	}

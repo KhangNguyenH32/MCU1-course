@@ -54,9 +54,8 @@ void SPI2_GPIOInits(void)
 	GPIO_Init(&SPIPins);
 
 	//MISO
-	//SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_14;
-	//GPIO_Init(&SPIPins);
-
+	SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_14;
+	GPIO_Init(&SPIPins);
 
 	//NSS
 	SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_12;
@@ -68,18 +67,18 @@ void SPI2_GPIOInits(void)
 void SPI2_Inits(void)
 {
 
-	SPI_Handle_t SPI2handle;
+	SPI_Handle_t SPI2Handle;
 
-	SPI2handle.pSPIx = SPI2;
-	SPI2handle.SPIConfig.SPI_BusConfig = SPI_BUS_CONFIG_FD;
-	SPI2handle.SPIConfig.SPI_DeviceMode = SPI_DEVICE_MODE_MASTER;
-	SPI2handle.SPIConfig.SPI_SclkSpeed = SPI_SCLK_SPEED_DIV8;
-	SPI2handle.SPIConfig.SPI_DFF = SPI_DFF_8BITS;
-	SPI2handle.SPIConfig.SPI_CPOL = SPI_CPOL_LOW;
-	SPI2handle.SPIConfig.SPI_CPHA = SPI_CPHA_LOW;
-	SPI2handle.SPIConfig.SPI_SSM = SPI_SSM_DIS; //Hardware slave management enabled for NSS pin
+	SPI2Handle.pSPIx = SPI2;
+	SPI2Handle.SPIConfig.SPI_BusConfig = SPI_BUS_CONFIG_FD;
+	SPI2Handle.SPIConfig.SPI_DeviceMode = SPI_DEVICE_MODE_MASTER;
+	SPI2Handle.SPIConfig.SPI_SclkSpeed = SPI_SCLK_SPEED_DIV8;
+	SPI2Handle.SPIConfig.SPI_DFF = SPI_DFF_8BITS;
+	SPI2Handle.SPIConfig.SPI_CPOL = SPI_CPOL_LOW;
+	SPI2Handle.SPIConfig.SPI_CPHA = SPI_CPHA_LOW;
+	SPI2Handle.SPIConfig.SPI_SSM = SPI_SSM_DIS; //Hardware slave management enabled for NSS pin
 
-	SPI_Init(&SPI2handle);
+	SPI_Init(&SPI2Handle);
 }
 
 void GPIO_ButtonInit(void)
@@ -100,7 +99,8 @@ void GPIO_ButtonInit(void)
 
 int main(void)
 {
-	char user_data[] = "Chung toi tu hao la thuong hieu cho tro truc tuyen hang dau trau a, trao niem tin nhan tai loc, khang deeptry 8386, 6969, 1836 cho nam ky";
+	char user_data[] = "Oat Do Phac Bro";
+	uint8_t dataLen = strlen(user_data);
 
 	GPIO_ButtonInit();
 
@@ -124,7 +124,6 @@ int main(void)
 	SPI_PeripheralControl(SPI2, ENABLE);
 
 	//send length information
-	uint8_t dataLen = strlen(user_data);
 	SPI_SendData(SPI2, &dataLen, 1);
 
 	//to send data

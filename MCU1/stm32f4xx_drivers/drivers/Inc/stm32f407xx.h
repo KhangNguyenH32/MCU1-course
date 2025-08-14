@@ -207,8 +207,8 @@ typedef struct
 #define GPIOI	((GPIO_RegDef_t*)GPIOI_BASEADDR)
 
 #define SPI1	((SPI_RegDef_t*)SPI1_BASEADDR)
-#define SPI2	((SPI_RegDef_t*)SPI1_BASEADDR)
-#define SPI3	((SPI_RegDef_t*)SPI1_BASEADDR)
+#define SPI2	((SPI_RegDef_t*)SPI2_BASEADDR)
+#define SPI3	((SPI_RegDef_t*)SPI3_BASEADDR)
 
 #define RCC		((RCC_RegDef_t*)RCC_BASEADDR)
 

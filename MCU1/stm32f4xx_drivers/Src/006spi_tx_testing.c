@@ -23,7 +23,7 @@ void delay(void)
 
 void GPIO_ButtonInits(void)
 {
-		GPIO_handle_t gpioButton;
+		GPIO_Handle_t gpioButton;
 
 		gpioButton.pGPIOx = GPIOA;
 		gpioButton.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_0;
@@ -38,7 +38,7 @@ void GPIO_ButtonInits(void)
 
 void SPI2_GPIOInits(void)
 {
-	GPIO_handle_t SPIPins;
+	GPIO_Handle_t SPIPins;
 	SPIPins.pGPIOx = GPIOB;
 	SPIPins.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
 	SPIPins.GPIO_PinConfig.GPIO_PinAltFunMode = 5;
@@ -59,8 +59,8 @@ void SPI2_GPIOInits(void)
 //	GPIO_Init(&SPIPins);
 
 	//NSS
-//	SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_12;
-//	GPIO_Init(&SPIPins);
+	SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_12;
+	GPIO_Init(&SPIPins);
 }
 
 void SPI2_Inits(void)
@@ -74,7 +74,7 @@ void SPI2_Inits(void)
 	SPI2Handle.SPIConfig.SPI_DFF = SPI_DFF_8BITS;
 	SPI2Handle.SPIConfig.SPI_CPOL = SPI_CPOL_LOW;
 	SPI2Handle.SPIConfig.SPI_CPHA = SPI_CPHA_LOW;
-	SPI2Handle.SPIConfig.SPI_SSM = SPI_SSM_EN; //software slave management enabled for NSS pin
+	SPI2Handle.SPIConfig.SPI_SSM = SPI_SSM_DIS; //software slave management enabled for NSS pin
 
 	SPI_Init(&SPI2Handle);
 }
@@ -92,7 +92,7 @@ int main(void)
 	SPI2_Inits();
 
 	//this make NSS signal internally high and avoids MODF error
-	SPI_SSIConfig(SPI2, ENABLE);
+	SPI_SSOEConfig(SPI2, ENABLE);
 
 	while(1);
 

@@ -293,3 +293,73 @@ void  SPI_SSOEConfig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi)
 		pSPIx->CR2 &=  ~(1 << SPI_CR2_SSOE);
 	}
 }
+
+/**
+ * @fn		void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnOrDis)
+ *
+ * @brief	Configures the interrupt for a specific IRQ line in the NVIC.
+ *
+ * @param	IRQNumber   The IRQ number (0 to 239 depending on MCU) to configure.
+ * @param	IRQPriority The priority level for the IRQ (0 = highest, 15 = lowest).
+ *
+ * @note	This function:
+ *			- Calculates the appropriate ISER/ICER register and bit for the IRQ
+ *			- Enables or disables the IRQ in NVIC based on EnOrDis
+ */
+void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnOrDis)
+{
+	uint8_t reg_idx = IRQNumber / 32;
+	uint8_t bit_pos = IRQNumber % 32;
+
+	if(reg_idx >= 8) return;
+
+	if(EnOrDis == ENABLE)
+	{
+		NVIC_ISER_BASE_ADDR[reg_idx] |= (1U << bit_pos);
+	}
+	else // DISBALE
+	{
+		NVIC_ICER_BASE_ADDR[reg_idx] |= (1U << bit_pos);
+	}
+}
+
+/**
+ * @fn		void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
+ *
+ * @brief	Configures the Priority for a specific IRQ line in the NVIC.
+ *
+ * @param	IRQNumber   The IRQ number (0 to 239 depending on MCU) to configure.
+ * @param	IRQPriority The priority level for the IRQ (0 = highest, 15 = lowest).
+ *
+ * @note	This function sets the priority in the NVIC_IPR register
+ */
+void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
+{
+	//1. first lets find out the ipr register
+	uint8_t iprx = IRQNumber / 4;
+	uint8_t iprx_section = IRQNumber % 4;
+
+	uint8_t shift = (iprx_section * 8) + (8 - PR_BITS_IMPLEMENTED);
+
+	*(NVIC_PR_BASE_ADDR + iprx) |= (IRQPriority << shift);
+}
+
+/**
+ * @fn		void SPI_IRQHandling(uint8_t PinNumber)
+ *
+ * @brief	Handles the interrupt event for a specific SPI pins.
+ *
+ * @param	PinNumber	The SPI pin number corresponding to the EXTI line.
+ *
+ * @note	This function clears the pending bit in the EXTI PR register for the given pin.
+ * 			It should be called inside the corresponding EXTI interrupt handler.
+ */
+void SPI_IRQHandling(uint8_t PinNumber)
+{
+	//clear the exit register corresponding to the pin number
+	if(EXTI->PR & (1U << PinNumber))
+	{
+		//clear
+		EXTI->PR |= (1U << PinNumber);
+	}
+}

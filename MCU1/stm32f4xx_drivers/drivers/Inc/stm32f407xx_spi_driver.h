@@ -31,7 +31,20 @@ typedef struct
 {
 	SPI_RegDef_t *pSPIx; // this pointer holds the base address of SPIx(x:1,2,3) peripheral
 	SPI_Config_t SPIConfig;
+	uint8_t *pTxBuffer;	// to store the Tx buffer address
+	uint8_t *pRxBuffer;	// to store the Rx buffer address
+	uint32_t *TxLen;	// to store the Tx Len
+	uint32_t *RxLen;	// to store the Rx Len
+	uint8_t TxState;	// to store the Tx state
+	uint8_t RxState;	// to store the Rx state
 }SPI_Handle_t;
+
+/*
+ * SPI application states
+ */
+#define SPI_READY		0
+#define SPI_BUSY_IN_RX	1
+#define SPI_BUSY_IN_TX	2
 
 /*
  * @SPI_DeviceMode
@@ -89,7 +102,6 @@ typedef struct
 #define SPI_RXNE_FLAG	(1U << SPI_SR_RXNE)
 #define SPI_BUSY_FLAG	(1U << SPI_SR_BSY)
 
-
 /***********************************************************************************************************
  *										APIs supported by this driver
  *					For more information about the APIs check the function definition
@@ -111,6 +123,10 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx);
 void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t Len);
 void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t Len);
 
+uint8_t SPI_SendDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t Len);
+void SPI_ReceiveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len);
+
+
 /*
  * IRQ Configuration and IRQ handling
  */
@@ -125,5 +141,12 @@ void SPI_PeripheralControl(SPI_RegDef_t *pSPIx, uint8_t EnOrDis);
 void SPI_SSIConfig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
 void SPI_SSOEConfig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
 uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx, uint32_t FlagName);
+
+/*
+ * IRQ Configuration and IRQ handling
+ */
+void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnOrDis);
+void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
+void SPI_IRQHandling(uint8_t PinNumber);
 
 #endif /* INC_STM32F407XX_SPI_DRIVER_H_ */

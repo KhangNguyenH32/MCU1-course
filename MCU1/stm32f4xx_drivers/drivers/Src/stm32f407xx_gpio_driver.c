@@ -394,7 +394,7 @@ void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnOrDis)
 /**
  * @fn		void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
  *
- * @brief	Configures the Priority for a specific IRQ line  in the NVIC.
+ * @brief	Configures the Priority for a specific IRQ line in the NVIC.
  *
  * @param	IRQNumber   The IRQ number (0 to 239 depending on MCU) to configure.
  * @param	IRQPriority The priority level for the IRQ (0 = highest, 15 = lowest).
@@ -409,6 +409,7 @@ void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
 
 	uint8_t shift = (iprx_section * 8) + (8 - PR_BITS_IMPLEMENTED);
 
+	*(NVIC_PR_BASE_ADDR + iprx) &= ~(0xFFU << (iprx_section * 8));
 	*(NVIC_PR_BASE_ADDR + iprx) |= (IRQPriority << shift);
 }
 

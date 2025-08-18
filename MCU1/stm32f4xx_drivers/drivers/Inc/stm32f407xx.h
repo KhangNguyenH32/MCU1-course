@@ -134,7 +134,7 @@ typedef struct
 	__vo uint32_t TXCRCR;    // SPI TX CRC register,              address offset: 0x18
 	__vo uint32_t I2SCFGR;   // SPI_I2S configuration register,   address offset: 0x1C
 	__vo uint32_t I2SPR;     // SPI_I2S prescaler register,       address offset: 0x20
-} SPI_RegDef_t;
+}SPI_RegDef_t;
 
 /*
  * Peripheral register definition structure for I2C
@@ -151,7 +151,7 @@ typedef struct
 	__vo uint32_t CCR;		// IC2 clock control register, address offset: 0x1C
 	__vo uint32_t TRISE;	// IC2 TRISE register, address offset: 0x20
 	__vo uint32_t FLTR;		// IC2 FLTR register, address offset: 0x04
-} I2C_RegDef_t;
+}I2C_RegDef_t;
 
 typedef struct
 {
@@ -181,7 +181,7 @@ typedef struct
 	__vo uint32_t APB2LPENR;    // APB2 peripheral clock enable in low power mode register, address offset: 0x64
 	uint32_t reserved6[2];      // Reserved, address offset: 0x68-0x6C
 	__vo uint32_t BDCR;         // Backup dDDDomain control register, address offset: 0x70
-} RCC_RegDef_t;
+}RCC_RegDef_t;
 
 /*
  * peripheral register definition structure for EXTI
@@ -195,7 +195,7 @@ typedef struct
 	__vo uint32_t FTSR;   // Falling trigger selection register, address offset: 0x0C
 	__vo uint32_t SWIER;  // Software interrupt event register, address offset: 0x10
 	__vo uint32_t PR;     // Pending register, address offset: 0x14
-} EXTI_RegDef_t;
+}EXTI_RegDef_t;
 
 /*
  * peripheral register definition structure for SYSCFG
@@ -208,7 +208,7 @@ typedef struct
 	__vo uint32_t EXTICR[4];   // Rising trigger selection register, address offset: 0x08
 		 uint32_t reserved[2];
 	__vo uint32_t CMPCR;   // Falling trigger selection register, address offset: 0x0C
-	} SYSCFG_RegDef_t;
+}SYSCFG_RegDef_t;
 
 
 /*
@@ -538,5 +538,6 @@ typedef struct
 
 #include <stm32f407xx_gpio_driver.h>
 #include <stm32f407xx_spi_driver.h>
+#include <stm32f407xx_i2c_driver.h>
 
 #endif /* INC_STM32F407XX_H_ */

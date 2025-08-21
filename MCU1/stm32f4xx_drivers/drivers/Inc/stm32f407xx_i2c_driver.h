@@ -49,6 +49,15 @@ typedef struct
 #define I2C_FM_DUTY_2		0
 #define I2C_FM_DUTY_16_9	1
 
+/*
+ * I2C related status flags definitions
+ */
+#define I2C_TXE_FLAG	(1 << I2C_SR1_TxE)
+#define I2C_RXNE_FLAG	(1 << I2C_SR1_RxNE)
+#define I2C_BTF_FLAG	(1 << I2C_SR1_BTF)
+#define I2C_SB_FLAG		(1 << I2C_SR1_SB)
+#define I2C_ADDR_FLAG	(1 << I2C_SR1_ADDR)
+
 /*****************************************************************************************************
  * 					For more information about the APIs check the function definition				 *
  *****************************************************************************************************/
@@ -60,18 +69,20 @@ void I2C_PeriClockControl(I2C_RegDef_t *pSPIx, uint8_t EnOrDis);
 /*
  * Init and De-init
  */
-void I2C_Init(SPI_Handle_t *pSPIHandle);
-void I2C_DeInit(SPI_RegDef_t *pSPIx);
+void I2C_Init(I2C_Handle_t *pSPIHandle);
+void I2C_DeInit(I2C_RegDef_t *pSPIx);
 
 /*
  * Data Send and Receive
  */
+void I2C_MasterSendData(I2C_Handle_t *pI2CHandle, uint8_t *pTxBuffer, uint32_t Len, uint8_t SlaveAddr);
+
 
 /*
  * IRQ Configuration and ISR handling
  */
 void I2C_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnOrDis);
-void I2C_GetFlagStatus(uint8_t IRQNumber, uint32_t IRQPriority);
+void I2C_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority);
 
 /*
  * Other Peripheral Control APIs
